@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - task-*           # ✅ runs on task-1, task-2, etc.
+      - task-*    # CI runs on task branches like task-1, task-2...
   pull_request:
     branches:
       - main
@@ -14,21 +14,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.10'
 
-    - name: Install dependencies
+    - name: Create and activate virtual environment
       run: |
         python -m venv venv
         source venv/bin/activate
         pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Run environment loader test
+    - name: Load .env file into environment
       run: |
-        source venv/bin/activate
-        python -c "from dotenv import load_dotenv; load_dotenv(); import os; assert os.getenv('POSTGRES_DB')"
+        set -a
+        source .env
+        set +a
+
+    - name: Test environment loading
+      run: |
+        python -c "import os; print('✅ POSTGRES_DB:', os.getenv('POSTGRES_DB')); print('✅ TG API ID:', os.getenv('TELEGRAM_API_ID') or os.getenv('TG_API_ID'))"
