@@ -1,13 +1,19 @@
 __pycache__/
 .env
-data/
-.csv
+
 *.pyc
 .DS_Store
 venv/
 .ipynb_checkpoints/
 .pytest_cache/
+# Secrets
+config/.env
 
+metadata/
+data/
+logs/
+.csv
+*.session
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
