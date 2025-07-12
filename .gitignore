@@ -70,7 +70,15 @@ cover/
 # Translations
 *.mo
 *.pot
+# DBT
+dbt_packages/
+target/
 
+# Logs / metadata
+*.log
+*.db
+last_scraped.json
+.env
 # Django stuff:
 *.log
 local_settings.py

@@ -1,0 +1,49 @@
+version: 2
+
+models:
+  - name: stg_telegram_messages
+    description: "Staging model that cleans raw telegram messages."
+    columns:
+      - name: id
+        tests:
+          - not_null
+          - unique
+      - name: text
+        tests:
+          - not_null
+      - name: has_media
+        tests:
+          - not_null
+      # Apply custom test at model level:
+    tests:
+      - no_null_text_with_media  # This requires the macro in macros/
+
+  - name: dim_channels
+    description: "Dimension table for Telegram channels."
+    columns:
+      - name: channel
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_dates
+    description: "Dimension table for dates."
+    columns:
+      - name: date_key
+        tests:
+          - unique
+          - not_null
+
+  - name: fct_messages
+    description: "Fact table containing message metrics and foreign keys."
+    columns:
+      - name: message_id
+        tests:
+          - unique
+          - not_null
+      - name: channel_key
+        tests:
+          - not_null
+      - name: date_key
+        tests:
+          - not_null
