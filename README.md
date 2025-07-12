@@ -127,11 +127,11 @@ dbt test
 
 
 
+📄 Documentation
+This project includes rich model documentation via dbt.
+To view the interactive docs:
 
+    dbt docs generate
+    dbt docs serve
 
----
-
-
----
-
-Would you like me to also generate the corresponding `requirements.txt` based on your actual code (`dbt`, `psycopg`, etc.)?
+You can also refer to the schema.yml files for model descriptions and column-level tests.
