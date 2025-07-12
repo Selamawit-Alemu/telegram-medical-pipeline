@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: raw
+    description: "Raw schema containing unprocessed telegram messages"
+    database: telegram_medical          # your database name
+    schema: public                      # schema where your raw table lives
+    tables:
+      - name: telegram_messages
+        description: "Raw telegram messages data"
