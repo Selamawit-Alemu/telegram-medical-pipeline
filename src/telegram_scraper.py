@@ -16,8 +16,8 @@ from dotenv import load_dotenv
 class TelegramScraper:
     def __init__(self):
         load_dotenv()
-        self.api_id: int = int(os.getenv('TELEGRAM_API_ID', '0'))
-        self.api_hash: str = os.getenv('TELEGRAM_API_HASH', '0')
+        self.api_id: int = int(os.getenv('TELEGRAM_API_ID'))
+        self.api_hash: str = os.getenv('TELEGRAM_API_HASH')
         self.phone: Optional[str] = os.getenv('PHONE')
         self.session_name: str = "scraper_session"
         self.client = TelegramClient(self.session_name, self.api_id, self.api_hash)
