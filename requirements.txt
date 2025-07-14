@@ -1,17 +1,29 @@
+# Core Scraping & API
 telethon
+requests
 python-dotenv
-dbt-core
+loguru
+
+# Data Handling
+pandas
+sqlalchemy
 psycopg2-binary
+
+# dbt (Data Transformation)
+dbt-core
+
+# Backend & API
 fastapi
 uvicorn
+
+# Orchestration
 dagster
 dagster-postgres
 dagit
+
+# Computer Vision
 opencv-python
 torch
 ultralytics
-pandas
-sqlalchemy
-requests
-dotenv
-loguru 
+
+
