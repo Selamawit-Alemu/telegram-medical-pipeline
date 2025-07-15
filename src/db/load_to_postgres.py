@@ -1,13 +1,14 @@
-# src/load_to_postgres.py
+
 # src/load_to_postgres.py
 
-import os
 import json
 import psycopg2
 from pathlib import Path
 from dotenv import load_dotenv
 from loguru import logger
 from typing import Any, Dict, List
+import sys, os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
 # Load environment variables
 load_dotenv()

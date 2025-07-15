@@ -18,6 +18,9 @@ logs/
 __pycache__/
 *.py[codz]
 *$py.class
+#Dagster
+.tmp_dagster_home*/
+dagster_home/ # Also good to ignore if it's a local development specific folder
 
 # C extensions
 *.so

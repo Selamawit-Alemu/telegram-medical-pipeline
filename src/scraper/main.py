@@ -1,8 +1,8 @@
 # src/main.py
-
-import sys
 import asyncio
 from telegram_scraper import TelegramScraper
+import sys, os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
 def main():
     if sys.platform == "win32":

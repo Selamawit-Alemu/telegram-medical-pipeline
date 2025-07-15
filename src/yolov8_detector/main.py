@@ -6,9 +6,12 @@ import logging
 from dotenv import load_dotenv
 from psycopg2.extras import execute_values
 import psycopg2
-from .detector import YOLOv8Detector
-from .db import get_db_connection, save_detections
-from .detector import YOLOv8Detector
+from detector import YOLOv8Detector
+from db import get_db_connection, save_detections
+from detector import YOLOv8Detector
+import sys, os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
+
 
 load_dotenv()
 

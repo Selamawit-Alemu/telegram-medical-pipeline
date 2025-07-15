@@ -20,7 +20,7 @@ uvicorn
 dagster
 dagster-postgres
 dagit
-
+dagster-webserver
 # Computer Vision
 opencv-python
 torch
