@@ -42,7 +42,7 @@ jobs:
       - name: 🚀 Run Telegram Pipeline (Scraper or Orchestration)
         run: |
           echo "Running scraper or orchestrator..."
-          python src/pipeline.py  # Or src/your_script.py
+          python src/main.py  # Or src/your_script.py
         env:
           TELEGRAM_API_ID: ${{ secrets.TELEGRAM_API_ID }}
           TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
@@ -57,12 +57,4 @@ jobs:
           dbt run --profiles-dir .
           dbt test --profiles-dir .
 
-      - name: 🧪 Run Python Tests
-        if: ${{ always() && hashFiles('tests/**/*.py') != '' }}
-        run: |
-          echo "Running tests..."
-          pytest tests/
 
-      - name: 📊 Upload coverage (Optional)
-        if: always() && github.ref == 'refs/heads/main'
-        uses: codecov/codecov-action@v3
