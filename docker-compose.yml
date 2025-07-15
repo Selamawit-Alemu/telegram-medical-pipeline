@@ -1,28 +1,68 @@
+# S:\AI MAstery\week-7\telegram-medical-pipeline\docker-compose.yml
 version: '3.12'
 
 services:
-  app:
-    build: .
-    container_name: telegram_pipeline_app
-    volumes:
-      - .:/app
-    env_file:
-      - .env
-    depends_on:
-      - db
-    ports:
-      - "8000:8000"
-
+  # 1. PostgreSQL Database Service
   db:
     image: postgres:15
     container_name: postgres_db
     restart: always
     env_file:
-      - .env
+      - .env # Uses your .env for PGUSER, PGPASSWORD, PGDATABASE
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    # Ensure POSTGRES_HOST in .env points to 'db' when running within Docker Compose
+    # For example: POSTGRES_HOST=db in your .env
+
+  # 2. Dagster Code Server Service (Runs your Python jobs/ops)
+  dagster_code:
+    build:
+      context: . # Build from the current directory using your Dockerfile
+      dockerfile: Dockerfile
+    container_name: dagster_code_server
+    # Command to run the Dagster gRPC server, exposing your repository
+    command: dagster api grpc --host 0.0.0.0 --port 4000 --module orchestration.repository
+    volumes:
+      - .:/app # Mount your project code for live updates during development
+    env_file:
+      - .env # Pass all .env variables to this service
+    depends_on:
+      - db # Ensure the database is up before the code server tries to connect
+    # Make sure this service also has all necessary environment variables from .env
+    # e.g., TELEGRAM_API_ID, RAW_DATA_DIR etc. These are picked up by `env_file`.
+
+  # 3. Dagit Web Server Service (The UI)
+  dagit:
+    image: dagster/dagit:1.x.x # Use a Dagit image version compatible with your dagster library version
+    container_name: dagit_ui
+    restart: always
+    ports:
+      - "3000:3000" # Map Dagit's default port to your host
+    environment:
+      DAGSTER_GRPC_HOST: dagster_code # Connects Dagit to your dagster_code service
+      DAGSTER_GRPC_PORT: 4000
+    depends_on:
+      - dagster_code # Ensure the code server is up before Dagit connects
+    env_file:
+      - .env # Pass .env to Dagit if it needs access to any variables (e.g., for showing in UI)
+
+  # 4. Your FastAPI Application (Optional, adapt if you're building this)
+  #    If this is your analytical API, it will also need access to the DB.
+  #    Adjust `ports` if you're using 8000 for FastAPI.
+  # app: # You can rename this to 'fastapi_app' or similar
+  #   build: .
+  #   container_name: telegram_fastapi_app
+  #   volumes:
+  #     - .:/app
+  #   env_file:
+  #     - .env
+  #   depends_on:
+  #     - db # FastAPI will need to connect to the DB
+  #   ports:
+  #     - "8000:8000" # For your FastAPI application
+  #   command: uvicorn main:app --host 0.0.0.0 --port 8000 # Example command to run FastAPI
 
 volumes:
   postgres_data:
