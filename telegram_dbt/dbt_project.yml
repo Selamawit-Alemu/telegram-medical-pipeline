@@ -35,7 +35,6 @@
 #    example:
 #     +materialized: view
 
-
 name: 'telegram_dbt'
 version: '1.0.0'
 
@@ -54,7 +53,12 @@ clean-targets:
 
 models:
   telegram_dbt:
-    # Applies to all models inside models/example/ folder
+    # Enable all models by default
+    +materialized: view   # or incremental, view, whatever you want as default
     example:
       +materialized: view
       +enabled: false
+    staging:
+      +schema: public
+    marts:
+      +schema: public

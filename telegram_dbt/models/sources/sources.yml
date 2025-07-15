@@ -1,0 +1,14 @@
+version: 2
+
+sources:
+  - name: telegram_source
+    description: "Source tables from the public schema"
+    schema: public
+    tables:
+      - name: telegram_messages
+      - name: dim_channels
+      - name: dim_dates
+      - name: fct_image_detections
+      - name: fct_messages
+      - name: my_first_dbt_model
+
